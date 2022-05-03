@@ -1,124 +1,155 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { news } from "../data/data.js";
+import { fetchNews } from "../API/api";
+import format from "date-fns/format";
+import { ClipLoader } from "react-spinners";
+import { ContainerWrapper } from "../globalStyle";
+const LatestNews = () => {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-function LatestNews() {
-  console.log(news[0].image);
+  const getNews = async () => {
+    setLoading(true);
+    const result = await fetchNews("global news");
+    setNews(result?.data?.value);
+    console.log(result?.data?.value);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getNews();
+  }, []);
+  console.log(news);
+  const newsList = news.slice(6, 15).map((item) => <NewsItem data={item} />);
+
   return (
-    <>
+    <ContainerWrapper>
       <Heading>Latest News</Heading>
-      <Container>
-        <Row1>
-          <Img1 data={news[2].image}>
-            <Imglayer>
-              <Imageheading size={"20px"}> {news[2].title}</Imageheading>
-            </Imglayer>
-          </Img1>
-
-          <Col2>
-            <Img2 data={news[3].image}>
-              <Imglayer>
-                <Imageheading size={"15px"}> {news[3].title}</Imageheading>
-              </Imglayer>
-            </Img2>
-            <Img2 data={news[4].image}>
-              <Imglayer>
-                <Imageheading size={"15px"}> {news[4].title}</Imageheading>
-              </Imglayer>
-            </Img2>
-          </Col2>
-        </Row1>
-        <Row2></Row2>
-        <Row3></Row3>
-      </Container>
-    </>
+      {loading ? (
+        <Spinner>
+          <ClipLoader color="red" loading={loading} size={30} />
+        </Spinner>
+      ) : (
+        <NewsContainer>{newsList}</NewsContainer>
+      )}
+    </ContainerWrapper>
   );
-}
+};
+
+const NewsItem = ({ data }) => {
+  console.log("data", data);
+  return (
+    <NewsLink href={data.url} target="_blank">
+      <NewslistingContainer>
+        <NewslistingFigure>
+          <Img src={data.image.url} alt={"description"} />
+        </NewslistingFigure>
+        <Newsdate>
+          {format(new Date(data.datePublished.slice(0, 10)), "doMMMyyyy")}
+        </Newsdate>
+        <Heading1>{data.title}</Heading1>
+        <Content>{data.description}</Content>
+        <Hline></Hline>
+      </NewslistingContainer>
+    </NewsLink>
+  );
+};
 
 export default LatestNews;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const Heading = styled.h2`
-  margin-top: 20px;
+  margin: 20px 0;
 `;
 
-const Row1 = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  @media screen and (max-width: 576px) {
-    flex-direction: column;
+const NewslistingContainer = styled.div`
+  border-radius: 10px;
+  position: relative;
+  padding: 10px;
+  height: 405px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid rgba(249, 249, 249, 0.1);
+  box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
+    rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: rgb(0 0 0 / 80%) 0px 40px 58px -16px,
+      rgb(0 0 0 / 72%) 0px 30px 22px -10px;
+    border-color: rgba(249, 249, 249, 0.1);
+  }
+  @media screen and (max-width: 500px) {
+    height: 250px;
+    margin: 7px 0;
   }
 `;
 
-const Img1 = styled.div`
-  height: 300px;
-  width: 48%;
-  background: url(${(props) => props.data}) no-repeat center center/cover;
-  position: relative;
-  @media screen and (max-width: 576px) {
-    height: 145px;
-    width: 100%;
-    margin-bottom: 10px;
+const NewslistingFigure = styled.figure`
+  width: 100%;
+  height: 40%;
+  @media screen and (max-width: 500px) {
+    height: 60%;
   }
 `;
-const Img2 = styled.div`
-  height: 145px;
-  margin-bottom: 10px;
-  background: url(${(props) => props.data}) no-repeat center center/cover;
-  position: relative;
-  @media screen and (max-width: 576px) {
-    height: 145px;
-    width: 100%;
-  }
-`;
-const Imglayer = styled.div`
+
+const Img = styled.img`
   width: 100%;
   height: 100%;
-  background-color: black;
-  opacity: 0.7;
+  object-fit: cover;
 `;
-const Imageheading = styled.h1`
-  bottom: 5%;
-  margin: 0 3px;
-  position: absolute;
-  color: white;
-  font-weight: bold;
-  font-size: ${(props) => props.size};
-  @media screen and (max-width: 576px) {
-    font-size: 12px;
-    margin: 0 5px;
+const Heading1 = styled.h2`
+  font-size: 1.1rem;
+  line-height: 22px;
+  font-weight: 700;
+  padding: 5px 0 5px 0;
+  height: 24%;
+  overflow: hidden;
+  @media screen and (max-width: 500px) {
+    height: 35%;
+    font-size: 0.8rem;
   }
 `;
-const Col2 = styled.div`
-  height: 300px;
-  width: 50%;
-  @media screen and (max-width: 576px) {
-    width: 100%;
+const Content = styled.p`
+  font-size: 0.9rem;
+  margin: 0px;
+  font-weight: 400;
+  line-height: 20px;
+  height: 25%;
+  overflow: hidden;
+  @media screen and (max-width: 500px) {
+    display: none;
   }
 `;
 
-const Crow1 = styled.div`
-  height: 145px;
-  background-color: gray;
-  margin-bottom: 10px;
+export const Hline = styled.hr`
+  border-top: 1px solid black;
+  margin: 8px 0;
 `;
-const Crow2 = styled.div`
-  height: 145px;
-  background-color: gray;
+export const Newsdate = styled.p`
+  margin: 4px 0;
 `;
-
-const Row2 = styled.div`
-  margin-top: 20px;
-  height: 150px;
-  background-color: gray;
+const NewsContainer = styled.div`
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 33.3% 33.3% 33.4%;
+  grid-gap: 18px;
+  margin-bottom: 20px;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 50% 50%;
+  }
+  @media screen and (max-width: 300px) {
+    grid-template-columns: 100%;
+  }
 `;
-const Row3 = styled.div`
-  margin-top: 20px;
-  height: 150px;
-  background-color: gray;
+const NewsLink = styled.a`
+  color: black;
+  &:hover {
+    text-decoration: none;
+  }
+`;
+const Spinner = styled.div`
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

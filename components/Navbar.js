@@ -1,31 +1,41 @@
 import styled from "styled-components";
 import NewsBusterLogo from "../assets/newsbuster_logo.svg";
-
+import { ContainerWrapper } from "../globalStyle";
+import Link from "next/link";
 function Navbar() {
   return (
-    <Nav>
-      <Logo>
-        <img  src={NewsBusterLogo} />
-        NewsBuster
-      </Logo>
-      <Button>Sign Up</Button>
-    </Nav>
+    <ContainerWrapper>
+      <Nav>
+        <Logo>
+          <img src={NewsBusterLogo.src} />
+          Buster
+        </Logo>
+        <Buttons>
+          <Link href="/">
+            <Button>Home </Button>
+          </Link>
+          <Link href="/about">
+            <Button>About </Button>
+          </Link>
+        </Buttons>
+      </Nav>
+    </ContainerWrapper>
   );
 }
 
 export default Navbar;
 
 const Nav = styled.div`
-height: 30px;
+  height: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  text-align: center;
   position: sticky;
 `;
 const Logo = styled.div`
   display: flex;
   align-items: center;
-  font-family: Inter;
   font-size: 32px;
   font-weight: 700;
   line-height: 39px;
@@ -35,29 +45,32 @@ const Logo = styled.div`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  @media screen and (max-width: 912px) {
-  }
   @media screen and (max-width: 500px) {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 29px;
+    font-weight: 600;
+    font-size: 25px;
   }
 `;
-const Button = styled.button`
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 2px;
+const Buttons = styled.div`
   text-align: center;
-  background: #072d74;
+  display: flex;
+`;
+
+const Button = styled.button`
+  margin-left: 20px;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  background-color: white;
   border-radius: 35px;
-  color: #ffffff;
-  width: 109px;
-  @media screen and (max-width: 500px) {   //768 px
+  color: black;
+  width: 100px;
+  border: none;
+  cursor: pointer;
+  @media screen and (max-width: 500px) {
     font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 18px;
     width: 90px;
+    margin-left: 0px;
+    width: 70px;
   }
 `;
