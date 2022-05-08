@@ -10,4 +10,16 @@ const fetchNews = (query) => {
   });
 };
 
-export { fetchNews };
+const predictNews = (data) => {
+  const url = `https://fakenews.pegasus0760.repl.co/api`;
+  return axios
+    .post(url, {
+      news: data,
+    })
+    .then(function (response) {
+      console.log(response.data.prediction);
+      return response?.data?.prediction;
+    });
+};
+
+export { fetchNews, predictNews };

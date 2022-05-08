@@ -12,14 +12,12 @@ const LatestNews = () => {
     setLoading(true);
     const result = await fetchNews("global news");
     setNews(result?.data?.value);
-    console.log(result?.data?.value);
     setLoading(false);
   };
 
   useEffect(() => {
     getNews();
   }, []);
-  console.log(news);
   const newsList = news.slice(6, 15).map((item) => <NewsItem data={item} />);
 
   return (
@@ -37,7 +35,6 @@ const LatestNews = () => {
 };
 
 const NewsItem = ({ data }) => {
-  console.log("data", data);
   return (
     <NewsLink href={data.url} target="_blank">
       <NewslistingContainer>

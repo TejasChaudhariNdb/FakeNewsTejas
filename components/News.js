@@ -1,35 +1,37 @@
 import styled from "styled-components";
 import { useState } from "react";
-import NewsBusterLogo2 from "../assets/newsbuster_logo2.svg";
 import whatsapp from "../assets/whatsapp.svg";
 import instagram from "../assets/instagram.svg";
 import twitter from "../assets/twitter.svg";
 import facebook from "../assets/facebook.svg";
 import { ContainerWrapper } from "../globalStyle";
+import { predictNews } from "../API/api";
 const News = () => {
   const [text, setText] = useState("");
   const [button, setButton] = useState("Find Out"); // toggle submit button
+  const [output, setOutput] = useState(null); // tells weather news is fake or not also used to decide background color of msg
 
-  const [displayOutput, setDisplayOutput] = useState(""); //show msg news is legitimate or not
-  const [output, setOutput] = useState(false); // tells weather news is fake or not also used to decide background color of msg
-
-  const handleText = (e) => {
-    setText(e.target.value);
-    setDisplayOutput("");
-    setButton("Find Out");
-  };
-  const handleClick = () => {
+  const handleClick = async () => {
     if (button === "Find Out" && text) {
-      setOutput(!output);
-      if (output) setDisplayOutput("The entered news is legitimate");
-      else setDisplayOutput("The entered news seems fake");
+      const result = await predictNews(text);
+      setOutput(result);
       setButton("Reset");
     } else {
       setText("");
-      setDisplayOutput("");
       setButton("Find Out");
+      setOutput(null);
     }
   };
+
+  const handleText = (e) => {
+    setText(e.target.value);
+    setButton("Find Out");
+  };
+
+  let displayOutput =
+    output !== null && output
+      ? "The entered news is legitimate"
+      : "The entered news seems fake";
 
   return (
     <ContainerWrapper>
@@ -47,17 +49,20 @@ const News = () => {
           <Buttons>
             <Button onClick={handleClick}>{button}</Button>
           </Buttons>
-          <ResultContainer show={displayOutput}>
-            <ResultHeading color={output}>{displayOutput}</ResultHeading>
-            <ResultIcons>
-              <h3>Share about this with your friends</h3>
-              <p>Spread awareness about spreading fake news</p>
-              <Icon src={whatsapp.src} />
-              <Icon src={instagram.src} />
-              <Icon src={twitter.src} />
-              <Icon src={facebook.src} />
-            </ResultIcons>
-          </ResultContainer>
+
+          {output !== null && (
+            <>
+              <ResultHeading color={output}>{displayOutput}</ResultHeading>
+              <ResultIcons>
+                <h3>Share about this with your friends</h3>
+                <p>Spread awareness about spreading fake news</p>
+                <Icon src={whatsapp.src} />
+                <Icon src={instagram.src} />
+                <Icon src={twitter.src} />
+                <Icon src={facebook.src} />
+              </ResultIcons>
+            </>
+          )}
         </Col2>
       </NewsContainer>
     </ContainerWrapper>
@@ -154,9 +159,9 @@ export const Button = styled.button`
     width: 100%;
   }
 `;
-const ResultContainer = styled.div`
-  display: ${({ show }) => (show ? "block" : "none")};
-`;
+// const ResultContainer = styled.div`
+//   display: ${({ show }) => (show ? "block" : "none")};
+// `;
 const ResultIcons = styled.div`
   background-color: #f2f2f2;
   text-align: center;
@@ -172,5 +177,6 @@ const ResultHeading = styled.p`
   border: 1px solid white;
   border-radius: 20px;
   text-align: center;
-  background-color: ${({ color }) => (color ? "#EB5757" : "#08C859")};
+  color: white;
+  background-color: ${({ color }) => (color ? '#08C859' : '#EB5757')};
 `;

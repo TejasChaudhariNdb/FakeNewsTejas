@@ -2,15 +2,14 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import GlobalStyle from "../globalStyle";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/react-fontawesome";
 import Footer from "../components/Footer";
 import { ContainerWrapper } from "../globalStyle";
 import { profileData } from "../data/profileData";
 import { Button } from "../components/News";
 
+import { TiSocialLinkedin,TiSocialGithub ,TiMail} from "react-icons/ti";
+import { FaGithub } from "react-icons/fa";
 const About = () => {
   return (
     <>
@@ -30,7 +29,7 @@ const About = () => {
             <Button>Find Out</Button>
           </Link>
         </Header>
-        <h1>Teams</h1>
+        <h1>Team</h1>
         <Profiles>
           {profileData.map((person) => (
             <Profile>
@@ -38,10 +37,13 @@ const About = () => {
               <ProfilesRole>{person.role}</ProfilesRole>
               <ProfilesIcons>
                 <Icons>
-                  <FontAwesomeIcon icon={faLinkedin} width="25px" />
+                  <TiSocialLinkedin size={30} />
                 </Icons>
                 <Icons>
-                  <FontAwesomeIcon icon={faGithub} width="25px" />
+                  <TiSocialGithub size={30} />
+                </Icons>
+                <Icons>
+                  <TiMail size={30}/>
                 </Icons>
               </ProfilesIcons>
             </Profile>
