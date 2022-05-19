@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import format from "date-fns/format";
+
 import { ClipLoader } from "react-spinners";
 import { fetchNews } from "../API/api";
 import { ContainerWrapper } from "../globalStyle";
+
 const LatestNews = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
