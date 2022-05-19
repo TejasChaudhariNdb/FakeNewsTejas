@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { fetchNews } from "../API/api";
 import format from "date-fns/format";
 import { ClipLoader } from "react-spinners";
+import { fetchNews } from "../API/api";
 import { ContainerWrapper } from "../globalStyle";
 const LatestNews = () => {
   const [news, setNews] = useState([]);
@@ -62,7 +62,7 @@ const NewslistingContainer = styled.div`
   border-radius: 10px;
   position: relative;
   padding: 10px;
-  height: 405px;
+  height: 425px;
   overflow: hidden;
   cursor: pointer;
   border: 3px solid rgba(249, 249, 249, 0.1);

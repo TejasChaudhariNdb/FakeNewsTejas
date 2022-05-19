@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import Link from "next/link";
 import NewsBusterLogo from "../assets/newsbuster_logo.svg";
 import { ContainerWrapper } from "../globalStyle";
-import Link from "next/link";
+
 function Navbar() {
   return (
     <ContainerWrapper>
