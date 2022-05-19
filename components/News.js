@@ -1,11 +1,9 @@
-import styled from "styled-components";
 import { useState } from "react";
-import whatsapp from "../assets/whatsapp.svg";
-import instagram from "../assets/instagram.svg";
-import twitter from "../assets/twitter.svg";
-import facebook from "../assets/facebook.svg";
+import styled from "styled-components";
+import { FaFacebook, FaWhatsapp, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { ContainerWrapper } from "../globalStyle";
 import { predictNews } from "../API/api";
+
 const News = () => {
   const [text, setText] = useState("");
   const [button, setButton] = useState("Find Out"); // toggle submit button
@@ -47,7 +45,7 @@ const News = () => {
             onChange={handleText}
           ></Textarea>
           <Buttons>
-            <Button onClick={handleClick}>{button}</Button>
+            <Button onClick={handleClick} text={button}>{button}</Button>
           </Buttons>
 
           {output !== null && (
@@ -56,10 +54,29 @@ const News = () => {
               <ResultIcons>
                 <h3>Share about this with your friends</h3>
                 <p>Spread awareness about spreading fake news</p>
-                <Icon src={whatsapp.src} />
-                <Icon src={instagram.src} />
-                <Icon src={twitter.src} />
-                <Icon src={facebook.src} />
+                <SocialIcon>
+                  <a
+                    href="https://api.whatsapp.com/send?phone=91XXXXXXXXXX&text=urlencodedtext"
+                    target="_blank"
+                  >
+                    <FaWhatsapp size={30} />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/sharer/sharer.php?u=example.org"
+                    target="_blank"
+                  >
+                    <FaFacebook size={30} />
+                  </a>
+                  <a href="https://twitter.com/intent/tweet" target="_blank">
+                    <FaTwitter size={30} />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/sharing/share-offsite/?url=your-url-here.com"
+                    target="_blank"
+                  >
+                    <FaLinkedin size={30} />
+                  </a>
+                </SocialIcon>
               </ResultIcons>
             </>
           )}
@@ -70,9 +87,13 @@ const News = () => {
 };
 
 export default News;
-const Icon = styled.img`
-  margin: 10px 10px 0 10px;
+
+const SocialIcon = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 0 100px;
 `;
+const Icon = styled.div``;
 
 const NewsContainer = styled.div`
   margin-top: 70px;
@@ -143,7 +164,8 @@ const Buttons = styled.div`
 export const Button = styled.button`
   text-align: center;
   color: #ffffff;
-  background: #072d74;
+
+  background: ${({ text }) => (text=='Find Out' ? "#072d74" : "red")};;
   align-items: center;
   border-radius: 35px;
   border: none;
@@ -160,7 +182,7 @@ export const Button = styled.button`
   }
 `;
 // const ResultContainer = styled.div`
-//   display: ${({ show }) => (show ? "block" : "none")};
+//   display: 
 // `;
 const ResultIcons = styled.div`
   background-color: #f2f2f2;
@@ -178,5 +200,5 @@ const ResultHeading = styled.p`
   border-radius: 20px;
   text-align: center;
   color: white;
-  background-color: ${({ color }) => (color ? '#08C859' : '#EB5757')};
+  background-color: ${({ color }) => (color ? "#08C859" : "#EB5757")};
 `;

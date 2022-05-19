@@ -1,10 +1,4 @@
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
 
 function Footer() {
   return (
@@ -39,18 +33,4 @@ const FBottom = styled.div`
 const Top = styled.p`
   margin: 40px 0 20px 0;
   text-align: center;
-`;
-const Bottom = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-const SocialMedia = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin: 10px 0;
-  font-size: 30px;
 `;

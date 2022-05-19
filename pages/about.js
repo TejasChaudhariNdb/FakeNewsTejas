@@ -1,15 +1,15 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import styled from "styled-components";
-import GlobalStyle from "../globalStyle";
 import Link from "next/link";
-import Footer from "../components/Footer";
+import { TiSocialLinkedin, TiSocialGithub, TiMail } from "react-icons/ti";
+import { BsGlobe } from "react-icons/bs";
+import GlobalStyle from "../globalStyle";
+import Navbar from "../components/Navbar";
 import { ContainerWrapper } from "../globalStyle";
 import { profileData } from "../data/profileData";
 import { Button } from "../components/News";
 
-import { TiSocialLinkedin,TiSocialGithub ,TiMail} from "react-icons/ti";
-import { FaGithub } from "react-icons/fa";
+
 const About = () => {
   return (
     <>
@@ -37,20 +37,37 @@ const About = () => {
               <ProfilesRole>{person.role}</ProfilesRole>
               <ProfilesIcons>
                 <Icons>
-                  <TiSocialLinkedin size={30} />
+                  <a href={person.linkedin} target="_blank">
+                    <TiSocialLinkedin size={30} />
+                  </a>
                 </Icons>
                 <Icons>
-                  <TiSocialGithub size={30} />
+                  <a href={person.github} target="_blank">
+                    <TiSocialGithub size={30} />
+                  </a>
                 </Icons>
                 <Icons>
-                  <TiMail size={30}/>
+                  <a href={"mailto:" + person.mail}>
+                    <TiMail size={30} />
+                  </a>
                 </Icons>
+                {(person.name == "Aniket Chaudhari" ||
+                  person.name == "Ravindra Lakhara") && (
+                  <Icons>
+                    <a
+                      href={person.portfolio}
+                      style={{ marginLeft: "4px" }}
+                      target="_blank"
+                    >
+                      <BsGlobe size={20} />
+                    </a>
+                  </Icons>
+                )}
               </ProfilesIcons>
             </Profile>
           ))}
         </Profiles>
       </ContainerWrapper>
-      <Footer />
     </>
   );
 };
@@ -126,9 +143,12 @@ const ProfilesRole = styled.p`
 const ProfilesIcons = styled.div`
   margin-bottom: 5px;
   display: flex;
+  align-items: center;
 `;
 
 const Icons = styled.div`
   margin: 0 5px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
 `;
