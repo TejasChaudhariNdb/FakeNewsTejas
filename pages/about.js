@@ -51,8 +51,8 @@ const About = () => {
                     <TiMail size={30} />
                   </a>
                 </Icons>
-                {(person.name == "Aniket Chaudhari" ||
-                  person.name == "Ravindra Lakhara") && (
+                {(person.name == "Tejas Chaudhari" ||
+                  person.name == "Harshal Borse") && (
                   <Icons>
                     <a
                       href={person.portfolio}

@@ -9,7 +9,7 @@ function Navbar() {
       <Nav>
         <Logo>
           <img src={NewsBusterLogo.src} />
-          Buster
+          Faker
         </Logo>
         <Buttons>
           <Link href="/">
