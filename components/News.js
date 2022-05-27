@@ -28,7 +28,7 @@ const News = () => {
 
   let displayOutput =
     output !== null && output
-      ? "The entered news is legitimate"
+      ? "The entered news is True"
       : "The entered news seems fake";
 
   return (
